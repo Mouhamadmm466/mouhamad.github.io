@@ -320,61 +320,59 @@ body {
 }
 
 /* Skills Section */
-.skills {
-  padding: 80px 20px;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.8) 100%);
-  border-top: 1px solid var(--dark-border);
+.skills-section {
+    background-color: var(--primary-bg-color);
 }
 
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-.skill-category {
-  background: var(--dark-card);
-  border: 1px solid var(--dark-border);
-  border-radius: 12px;
-  padding: 2rem;
-  transition: var(--transition);
-}
-
-.skill-category:hover {
-  border-color: var(--primary-light);
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
-}
-
-.skill-icon {
-  color: var(--primary-light);
-  margin-bottom: 1rem;
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .skill-category h3 {
-  font-size: 1.3rem;
-  margin-bottom: 1.5rem;
-  color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--text-color);
 }
 
-.skill-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
 
-.skill-tags span {
-  background: rgba(59, 130, 246, 0.1);
-  color: var(--text-muted);
-  padding: 0.5rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  transition: var(--transition);
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 100px;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
 }
 
-.skill-tags span:hover {
-  background: rgba(59, 130, 246, 0.2);
-  color: var(--primary-lighter);
+.skill-item:hover {
+    transform: translateY(-5px);
+}
+
+.skill-item i {
+    font-size: 3rem;
+    color: var(--highlight-color);
+}
+
+.skill-item span {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--secondary-text);
 }
 
 /* Stats Section */
@@ -643,3 +641,4 @@ body {
     padding: 0.75rem 1.5rem;
   }
 }
+
