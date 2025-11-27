@@ -374,7 +374,6 @@ body {
 
 .skill-item i {
     font-size: 3rem;
-    color: var(--highlight-color);
 }
 
 .skill-item span {
@@ -652,6 +651,7 @@ body {
     padding: 0.75rem 1.5rem;
   }
 }
+
 
 
 
