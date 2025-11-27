@@ -205,14 +205,14 @@ body {
 }
 .btn-secondary {
     background: transparent;
-    color: var(--highlight-color);
+    color: var(--primary);
     border: 2px solid var(--highlight-color);
     margin-left: 10px;
 }
 
 .btn-secondary:hover {
-    background-color: var(--highlight-color);
-    color: var(--highlight-text);
+    background-color: var(--primary);
+    color: var(--primary);
 }
 
 
@@ -662,6 +662,7 @@ body {
     padding: 0.75rem 1.5rem;
   }
 }
+
 
 
 
