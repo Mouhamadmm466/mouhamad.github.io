@@ -149,10 +149,6 @@ body {
   margin-bottom: 2rem;
   animation: fadeInUp 0.8s ease-out 0.4s both;
 }
-.hero-bio {
-    font-size: 1.1rem;
-    margin-bottom: 30px;
-
 .social-links {
   display: flex;
   gap: 1.5rem;
@@ -654,6 +650,7 @@ body {
     padding: 0.75rem 1.5rem;
   }
 }
+
 
 
 
