@@ -203,6 +203,18 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
 }
+.btn-secondary {
+    background: transparent;
+    color: var(--highlight-color);
+    border: 2px solid var(--highlight-color);
+    margin-left: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--highlight-color);
+    color: var(--highlight-text);
+}
+
 
 .scroll-down {
   background: none;
@@ -650,6 +662,7 @@ body {
     padding: 0.75rem 1.5rem;
   }
 }
+
 
 
 
