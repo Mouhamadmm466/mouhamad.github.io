@@ -329,7 +329,7 @@ body {
 
 /* Skills Section */
 .skills-section {
-    background-color: var(--primary-bg-color);
+    background-color:linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
 }
 
 .skills-container {
@@ -650,6 +650,7 @@ body {
     padding: 0.75rem 1.5rem;
   }
 }
+
 
 
 
