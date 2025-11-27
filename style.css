@@ -204,15 +204,14 @@ body {
   box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
 }
 .btn-secondary {
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--highlight-color);
-    margin-left: 10px;
+  background: var(--primary-light);
+  color: white;
 }
 
 .btn-secondary:hover {
-    background-color: var(--primary);
-    color: var(--primary);
+  background: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
 }
 
 
@@ -662,6 +661,7 @@ body {
     padding: 0.75rem 1.5rem;
   }
 }
+
 
 
 
