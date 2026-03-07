@@ -1,70 +1,51 @@
-// Navigation Menu Toggle
-const menuToggle = document.getElementById("menuToggle")
-const navMenu = document.getElementById("navMenu")
+const body = document.body;
+const themeToggle = document.querySelector(".theme-toggle");
 
-menuToggle.addEventListener("click", () => {
-  navMenu.classList.toggle("active")
-})
+const applyTheme = (theme) => {
+    body.dataset.theme = theme;
 
-// Close menu when clicking on a link
-document.querySelectorAll(".nav-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    navMenu.classList.remove("active")
-  })
-})
+    if (themeToggle) {
+        const icon = themeToggle.querySelector("i");
+        if (icon) {
+            icon.className = theme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+        }
+    }
 
-// Smooth scroll for scroll button
-document.getElementById("scrollBtn").addEventListener("click", () => {
-  const aboutSection = document.getElementById("about")
-  aboutSection.scrollIntoView({ behavior: "smooth" })
-})
+    localStorage.setItem("portfolio-theme", theme);
+};
 
-// Scroll animation for sections
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: "0px 0px -50px 0px",
+const savedTheme = localStorage.getItem("portfolio-theme");
+if (savedTheme === "light" || savedTheme === "dark") {
+    applyTheme(savedTheme);
 }
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = "1"
-      entry.target.style.transform = "translateY(0)"
+if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+        const nextTheme = body.dataset.theme === "dark" ? "light" : "dark";
+        applyTheme(nextTheme);
+    });
+}
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+        }
+    });
+}, {
+    threshold: 0.18
+});
+
+document.querySelectorAll(".content-block").forEach((block) => revealObserver.observe(block));
+
+const currentPage = document.body.dataset.page;
+document.querySelectorAll(".nav-link").forEach((link) => {
+    const isActive = link.dataset.page === currentPage;
+    link.classList.toggle("active", isActive);
+
+    if (isActive) {
+        link.setAttribute("aria-current", "page");
+    } else {
+        link.removeAttribute("aria-current");
     }
-  })
-}, observerOptions)
-
-document.querySelectorAll("section").forEach((section) => {
-  section.style.opacity = "0"
-  section.style.transform = "translateY(20px)"
-  section.style.transition = "all 0.6s ease"
-  observer.observe(section)
-})
-
-// Add active class to navigation links on scroll
-window.addEventListener("scroll", () => {
-  let current = ""
-  const sections = document.querySelectorAll("section")
-
-  sections.forEach((section) => {
-    const sectionTop = section.offsetTop
-    const sectionHeight = section.clientHeight
-    if (scrollY >= sectionTop - 200) {
-      current = section.getAttribute("id")
-    }
-  })
-
-  document.querySelectorAll(".nav-link").forEach((link) => {
-    link.classList.remove("active")
-    if (link.getAttribute("href").slice(1) === current) {
-      link.classList.add("active")
-    }
-  })
-})
-
-// Close menu when clicking outside
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".nav-container")) {
-    navMenu.classList.remove("active")
-  }
-})
+});
