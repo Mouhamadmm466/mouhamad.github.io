@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        (function () {
+            var path = window.location.pathname;
+            var repoBase = "/mouhamad.github.io";
+            var route = path.indexOf(repoBase) === 0 ? path.slice(repoBase.length) : path;
+            route = route.replace(/\/+$/, "");
+
+            var pageMap = {
+                "/": "/",
+                "": "/",
+                "/about": "/about/",
+                "/contact": "/contact/",
+                "/initiatives": "/initiatives/",
+                "/momo": "/momo/",
+                "/photography": "/photography/",
+                "/sports": "/sports/",
+                "/writings": "/writings/",
+                "/writing-01": "/writing-01/",
+                "/writing-02": "/writing-02/",
+                "/writing-03": "/writing-03/"
+            };
+
+            var target = pageMap[route];
+            if (target) {
+                window.location.replace(repoBase + target + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
+</head>
+<body>
+</body>
+</html>
