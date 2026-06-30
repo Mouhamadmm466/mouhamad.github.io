@@ -193,6 +193,13 @@ button {
     margin-bottom: 2.5rem;
 }
 
+.page-intro > .section-label,
+.contact-main > .section-label,
+.momo-header > .section-label,
+.gallery-intro > .section-label {
+    text-align: center;
+}
+
 .about-layout {
     display: grid;
     gap: 1.5rem;
