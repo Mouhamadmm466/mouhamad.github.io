@@ -198,13 +198,30 @@ button {
     gap: 1.5rem;
 }
 
-.about-card {
+[data-page="about"] .page-shell {
     display: grid;
-    gap: 1rem;
+    align-items: center;
+}
+
+[data-page="about"] .page-main {
+    width: min(100%, 58rem);
+}
+
+[data-page="about"] .about-card {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+}
+
+[data-page="about"] .about-card .card-label {
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 [data-page="about"] .about-card .body-copy {
-    max-width: none;
+    width: 100%;
+    max-width: 48rem;
+    margin-inline: auto;
 }
 
 .card {
@@ -368,9 +385,19 @@ button {
     transform: translateX(2px);
 }
 
+[data-page="initiatives"] .project-list {
+    gap: 2.25rem;
+}
+
+[data-page="initiatives"] .project-list > li {
+    display: grid;
+    gap: 0.8rem;
+}
+
 [data-page="initiatives"] .project-copy {
-    max-width: none;
     width: 100%;
+    max-width: 74ch;
+    line-height: 1.9;
 }
 
 .contact-email {
