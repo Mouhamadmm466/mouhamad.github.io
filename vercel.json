@@ -1,5 +1,32 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
+  "redirects": [
+    {
+      "source": "/writings",
+      "destination": "/entries",
+      "permanent": true
+    },
+    {
+      "source": "/writings/writing-01.html",
+      "destination": "/entries/entry-01.html",
+      "permanent": true
+    },
+    {
+      "source": "/writings/writing-02.html",
+      "destination": "/entries/entry-02.html",
+      "permanent": true
+    },
+    {
+      "source": "/writings/writing-03.html",
+      "destination": "/entries/entry-03.html",
+      "permanent": true
+    },
+    {
+      "source": "/writings/:path*",
+      "destination": "/entries/:path*",
+      "permanent": true
+    }
+  ],
   "trailingSlash": true
 }
