@@ -234,7 +234,7 @@ button {
 }
 
 .center-card {
-    width: min(100%, 44rem);
+    width: min(100%, 52rem);
     margin: 2.25rem auto 0;
     text-align: left;
 }
@@ -266,13 +266,6 @@ button {
     flex-wrap: wrap;
     font-size: 1rem;
     line-height: 1.5;
-}
-
-@media (min-width: 721px) {
-    .software-role-line {
-        flex-wrap: nowrap;
-        white-space: nowrap;
-    }
 }
 
 .arrow,
@@ -393,17 +386,31 @@ button {
 }
 
 [data-page="initiatives"] .project-list {
-    gap: 2.25rem;
+    gap: 0;
 }
 
 [data-page="initiatives"] .project-list > li {
     display: grid;
-    gap: 0.8rem;
+    gap: 1rem;
+    padding: 2rem 0;
+}
+
+[data-page="initiatives"] .project-list > li:first-child {
+    padding-top: 0.25rem;
+}
+
+[data-page="initiatives"] .project-list > li:last-child {
+    padding-bottom: 0.25rem;
+}
+
+[data-page="initiatives"] .project-list > li:not(:last-child) {
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
 }
 
 [data-page="initiatives"] .project-copy {
-    width: 100%;
-    max-width: 74ch;
+    width: min(100%, 68ch);
+    max-width: none;
+    padding-left: 1.55rem;
     line-height: 1.9;
 }
 
