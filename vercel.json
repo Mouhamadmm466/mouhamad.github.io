@@ -26,6 +26,31 @@
       "source": "/writings/:path*",
       "destination": "/entries/:path*",
       "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/momo",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/sports",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/photography",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/initiatives",
+      "destination": "/build",
+      "permanent": true
     }
   ],
   "trailingSlash": true

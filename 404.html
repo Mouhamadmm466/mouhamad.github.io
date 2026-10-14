@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <script>
-        (function () {
-            var path = window.location.pathname;
-            var repoBase = "";
-            var route = path.indexOf(repoBase) === 0 ? path.slice(repoBase.length) : path;
-            route = route.replace(/\/+$/, "");
-
-            var pageMap = {
-                "/": "/",
-                "": "/",
-                "/about": "/about/",
-                "/contact": "/contact/",
-                "/initiatives": "/initiatives/",
-                "/10000h": "/10000-plus/",
-                "/10000+": "/10000-plus/",
-                "/10000-plus": "/10000-plus/",
-                "/momo": "/momo/",
-                "/photography": "/photography/",
-                "/sports": "/sports/",
-                "/entries": "/entries/",
-                "/writings": "/entries/",
-                "/entry-01": "/entries/entry-01.html",
-                "/entry-02": "/entries/entry-02.html",
-                "/entry-03": "/entries/entry-03.html",
-                "/writing-01": "/entries/entry-01.html",
-                "/writing-02": "/entries/entry-02.html",
-                "/writing-03": "/entries/entry-03.html"
-            };
-
-            var target = pageMap[route];
-            if (target) {
-                window.location.replace(repoBase + target + window.location.search + window.location.hash);
-            }
-        })();
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Not found · Mouhamad Mamane</title>
+<meta name="description" content="Page not found.">
+<meta name="theme-color" content="#FFFAF1">
+<meta property="og:title" content="Not found · Mouhamad Mamane">
+<meta property="og:description" content="Page not found.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://mouhamad-github-io.vercel.app/Assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('portfolio-theme');d.dataset.theme=(t==='dark')?'dark':'light'}catch(e){d.dataset.theme='light'}})();</script>
+<script>
+(function () {
+  var path = location.pathname, base = path.indexOf("/mouhamad.github.io/") === 0 ? "/mouhamad.github.io/" : "/";
+  document.write('<base href="' + base + '">');
+  var route = path.slice(base.length - 1).replace(/\/+$/, "") || "/";
+  var map = { "/10000h": "10000-plus/", "/10000+": "10000-plus/", "/writings": "entries/", "/momo": "", "/sports": "", "/photography": "", "/about": "", "/initiatives": "build/",
+    "/entry-01": "entries/entry-01.html", "/entry-02": "entries/entry-02.html", "/entry-03": "entries/entry-03.html",
+    "/writing-01": "entries/entry-01.html", "/writing-02": "entries/entry-02.html", "/writing-03": "entries/entry-03.html",
+    "/writings/writing-01.html": "entries/entry-01.html", "/writings/writing-02.html": "entries/entry-02.html", "/writings/writing-03.html": "entries/entry-03.html" };
+  if (route in map) location.replace(base + map[route] + location.search + location.hash);
+})();
+</script>
+<link rel="icon" type="image/svg+xml" href="Assets/images/favicon.svg">
+<link rel="preload" href="Assets/fonts/dmsans-lab.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-room="404">
+<a class="skip" href="#main">Skip to content</a>
+<div class="haze" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+<div class="corner left" aria-hidden="true"></div>
+<div class="corner right" aria-hidden="true"><span class="dot"></span><span class="where">Cleveland, OH ·</span><time class="clock">—</time></div>
+<main id="main" class="room">
+<div class="room-inner">
+<section class="col" aria-labelledby="t">
+  <p class="mono">404</p>
+  <h1 id="t" class="title">This room doesn't exist. Not yet, anyway.</h1>
+  <p class="lede">Everything else is one step away, in the bar below.</p>
+</section>
+</div>
+</main>
+
+<nav class="dock" aria-label="Rooms">
+  <a class="step" aria-disabled="true" aria-label="Previous room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6"/></svg></a>
+  <div class="links"><span class="pill" aria-hidden="true"></span><a href="./" data-i="0">home</a><a href="build/" data-i="1">build</a><a href="research/" data-i="2">research</a><a href="entries/" data-i="3">entries</a><a href="contact/" data-i="4">contact</a></div>
+  <button class="here" type="button" aria-expanded="false" aria-controls="dock-sheet"><i></i>Not found</button>
+  <a class="step" aria-disabled="true" aria-label="Next room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></a>
+  <span class="sep" aria-hidden="true"></span>
+  <button class="theme" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></button>
+</nav>
+<nav id="dock-sheet" class="dock-sheet" aria-label="Rooms" hidden><a href="./" data-i="0">Home<span>01</span></a><a href="build/" data-i="1">Build<span>02</span></a><a href="research/" data-i="2">Research<span>03</span></a><a href="entries/" data-i="3">Entries<span>04</span></a><a href="contact/" data-i="4">Contact<span>05</span></a></nav>
+<script src="script.js" defer></script>
 </body>
 </html>

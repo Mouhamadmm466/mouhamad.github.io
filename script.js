@@ -1,243 +1,150 @@
-const body = document.body;
-const themeToggle = document.querySelector(".theme-toggle");
+/* Walking between rooms, the dock, the theme, and small details.
+   The theme is applied before paint by a one-line script in each page's <head> (light unless chosen). */
 
-const applyTheme = (theme) => {
-    body.dataset.theme = theme;
+const root = document.documentElement;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (themeToggle) {
-        const icon = themeToggle.querySelector("i");
-        if (icon) {
-            icon.className = theme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
-        }
-    }
-
-    localStorage.setItem("portfolio-theme", theme);
+/* ---- direction of travel, so rooms slide the right way (cross-document view transitions) ---- */
+const DIR = "room-dir";
+window.addEventListener("pagereveal", () => {
+    try { root.dataset.dir = sessionStorage.getItem(DIR) || "forward"; sessionStorage.removeItem(DIR); } catch (e) { /* private mode */ }
+});
+const currentIndex = () => {
+    const a = document.querySelector('.dock .links a[aria-current="page"]');
+    return a ? Number(a.dataset.i) : -1;
 };
-
-const savedTheme = localStorage.getItem("portfolio-theme");
-if (savedTheme === "light" || savedTheme === "dark") {
-    applyTheme(savedTheme);
-}
-
-if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-        const nextTheme = body.dataset.theme === "dark" ? "light" : "dark";
-        applyTheme(nextTheme);
+const go = (href, dir) => {
+    if (!href) return;
+    try { sessionStorage.setItem(DIR, dir); } catch (e) { /* ignore */ }
+    location.href = href;
+};
+document.querySelectorAll(".dock a[data-i], .dock-sheet a[data-i]").forEach((a) => {
+    a.addEventListener("click", () => {
+        try { sessionStorage.setItem(DIR, Number(a.dataset.i) < currentIndex() ? "back" : "forward"); } catch (e) { /* ignore */ }
     });
-}
+});
+document.querySelectorAll(".dock [data-step]").forEach((a) => {
+    a.addEventListener("click", () => { try { sessionStorage.setItem(DIR, a.dataset.step === "prev" ? "back" : "forward"); } catch (e) { /* ignore */ } });
+});
+const prevHref = () => document.querySelector('.dock [data-step="prev"]')?.getAttribute("href");
+const nextHref = () => document.querySelector('.dock [data-step="next"]')?.getAttribute("href");
 
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-        }
-    });
-}, {
-    threshold: 0.18
+/* arrow keys walk between rooms (up and down are kept for lists) */
+document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+    const t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); go(nextHref(), "forward"); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(prevHref(), "back"); }
 });
 
-document.querySelectorAll(".content-block").forEach((block) => revealObserver.observe(block));
+/* a horizontal swipe walks too */
+let touch = null;
+document.addEventListener("touchstart", (e) => { if (e.touches.length === 1) touch = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() }; }, { passive: true });
+document.addEventListener("touchend", (e) => {
+    if (!touch) return;
+    const dx = e.changedTouches[0].clientX - touch.x, dy = e.changedTouches[0].clientY - touch.y, dt = Date.now() - touch.t;
+    touch = null;
+    if (dt > 700 || Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.6) return;
+    if (dx < 0) go(nextHref(), "forward"); else go(prevHref(), "back");
+}, { passive: true });
 
-const currentPage = document.body.dataset.page;
-document.querySelectorAll(".nav-link").forEach((link) => {
-    const isActive = link.dataset.page === currentPage;
-    link.classList.toggle("active", isActive);
+/* ---- the dock's ink pill sits under the current room ---- */
+const pill = document.querySelector(".dock .pill");
+const placePill = () => {
+    const a = document.querySelector('.dock .links a[aria-current="page"]');
+    if (!pill) return;
+    if (!a) { pill.style.opacity = "0"; return; }
+    pill.style.left = a.offsetLeft + "px";
+    pill.style.width = a.offsetWidth + "px";
+};
+placePill();
+requestAnimationFrame(() => pill && pill.classList.add("ready"));
+document.fonts && document.fonts.ready.then(placePill);
+window.addEventListener("resize", placePill);
+document.querySelectorAll(".dock .links a").forEach((a) => {
+    a.addEventListener("mouseenter", () => { if (!pill) return; pill.style.left = a.offsetLeft + "px"; pill.style.width = a.offsetWidth + "px"; });
+});
+document.querySelector(".dock .links")?.addEventListener("mouseleave", placePill);
 
-    if (isActive) {
-        link.setAttribute("aria-current", "page");
-    } else {
-        link.removeAttribute("aria-current");
-    }
+/* ---- the compact dock (phones): the current room opens a list ---- */
+const here = document.querySelector(".dock .here");
+const sheet = document.getElementById("dock-sheet");
+if (here && sheet) {
+    const setOpen = (open) => { sheet.hidden = !open; here.setAttribute("aria-expanded", String(open)); };
+    here.addEventListener("click", (e) => { e.stopPropagation(); setOpen(sheet.hidden); });
+    document.addEventListener("click", (e) => { if (!sheet.hidden && !sheet.contains(e.target)) setOpen(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sheet.hidden) { setOpen(false); here.focus(); } });
+}
+
+/* ---- theme ---- */
+document.querySelectorAll(".theme").forEach((button) => {
+    const label = () => button.setAttribute("aria-label", root.dataset.theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    label();
+    button.addEventListener("click", () => {
+        root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+        try { localStorage.setItem("portfolio-theme", root.dataset.theme); } catch (e) { /* ignore */ }
+        label();
+    });
 });
 
-const extractYouTubeId = (input) => {
+/* ---- the time in Cleveland ---- */
+const clock = document.querySelector(".clock");
+if (clock) {
+    const fmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
+    const tick = () => { clock.textContent = fmt.format(new Date()); };
+    tick(); setInterval(tick, 20000);
+}
+
+/* ---- copy the email ---- */
+document.querySelectorAll("[data-copy]").forEach((b) => {
+    b.addEventListener("click", async () => {
+        const label = b.querySelector("span");
+        try { await navigator.clipboard.writeText(b.dataset.copy); if (label) label.textContent = "copied"; }
+        catch (e) { if (label) label.textContent = "press ⌘C"; }
+        setTimeout(() => { if (label) label.textContent = "copy"; }, 1800);
+    });
+});
+
+/* ---- 10000+: paste a YouTube link into data-youtube-url and the card comes alive ---- */
+const youTubeId = (input) => {
     const value = (input || "").trim();
-    if (!value) {
-        return null;
-    }
-
-    if (/^[\w-]{11}$/.test(value)) {
-        return value;
-    }
-
-    try {
-        const url = new URL(value);
-        const hostname = url.hostname.replace(/^www\./, "");
-
-        if (hostname === "youtu.be") {
-            const shortId = url.pathname.replace(/^\/+/, "").split("/")[0];
-            return /^[\w-]{11}$/.test(shortId) ? shortId : null;
-        }
-
-        if (hostname === "youtube.com" || hostname === "m.youtube.com" || hostname === "youtube-nocookie.com") {
-            const directId = url.searchParams.get("v");
-            if (directId && /^[\w-]{11}$/.test(directId)) {
-                return directId;
-            }
-
-            const parts = url.pathname.split("/").filter(Boolean);
-            const videoIndex = parts.findIndex((part) => ["embed", "shorts", "live", "v"].includes(part));
-            if (videoIndex !== -1) {
-                const pathId = parts[videoIndex + 1];
-                return /^[\w-]{11}$/.test(pathId) ? pathId : null;
-            }
-        }
-    } catch (error) {
-        const matches = value.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);
-        return matches ? matches[1] : null;
-    }
-
-    return null;
+    if (!value) return null;
+    if (/^[\w-]{11}$/.test(value)) return value;
+    const m = value.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);
+    return m ? m[1] : null;
 };
-
-const createYouTubeEmbedUrl = (videoId, mode) => {
-    const params = new URLSearchParams({
-        autoplay: "1",
-        playsinline: "1",
-        rel: "0",
-        modestbranding: "1"
-    });
-
-    if (mode === "preview") {
-        params.set("mute", "1");
-        params.set("controls", "0");
-        params.set("loop", "1");
-        params.set("playlist", videoId);
-        params.set("disablekb", "1");
-        params.set("fs", "0");
-    } else {
-        params.set("controls", "1");
-    }
-
-    return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
+const embed = (id, mode) => {
+    const p = new URLSearchParams({ autoplay: "1", playsinline: "1", rel: "0", modestbranding: "1" });
+    if (mode === "preview") { p.set("mute", "1"); p.set("controls", "0"); p.set("loop", "1"); p.set("playlist", id); }
+    return `https://www.youtube-nocookie.com/embed/${id}?${p.toString()}`;
 };
-
-const createVideoIframe = (videoId, mode, title) => {
-    const iframe = document.createElement("iframe");
-    iframe.className = `video-embed${mode === "preview" ? " is-preview" : ""}`;
-    iframe.src = createYouTubeEmbedUrl(videoId, mode);
-    iframe.title = title || "YouTube video player";
-    iframe.loading = mode === "preview" ? "eager" : "lazy";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    iframe.referrerPolicy = "strict-origin-when-cross-origin";
-    iframe.allowFullscreen = true;
-    return iframe;
-};
-
-const videoFrames = Array.from(document.querySelectorAll(".video-frame"));
-
-const resetVideoFrame = (frame) => {
-    const iframe = frame.querySelector(".video-embed");
-    if (iframe) {
-        iframe.remove();
-    }
-
-    frame.classList.remove("is-previewing", "is-playing");
-    frame.dataset.state = "idle";
-    frame.setAttribute("aria-pressed", "false");
-};
-
-const mountVideoFrame = (frame, mode) => {
-    const videoId = frame.dataset.videoId;
-    if (!videoId) {
+document.querySelectorAll(".video-frame").forEach((frame) => {
+    const id = youTubeId(frame.dataset.youtubeUrl);
+    if (!id) {
+        frame.classList.add("is-placeholder");
+        frame.removeAttribute("role"); frame.removeAttribute("tabindex");
+        const badge = frame.querySelector(".video-badge"); if (badge) badge.textContent = "coming soon";
+        frame.querySelector(".video-action")?.remove();
         return;
     }
-
     const media = frame.querySelector(".video-media");
-    if (!media) {
-        return;
+    const poster = frame.querySelector(".video-poster");
+    if (poster) { poster.style.background = `url("https://i.ytimg.com/vi/${id}/hqdefault.jpg") center / cover`; poster.style.opacity = "1"; }
+    const mount = (mode) => {
+        if (frame.dataset.state === (mode === "play" ? "playing" : "preview")) return;
+        media.querySelector(".video-embed")?.remove();
+        const f = document.createElement("iframe");
+        f.className = "video-embed"; f.src = embed(id, mode); f.title = frame.dataset.videoTitle || "Video";
+        f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen = true;
+        media.appendChild(f);
+        frame.dataset.state = mode === "play" ? "playing" : "preview";
+        frame.classList.toggle("is-playing", mode === "play"); frame.classList.toggle("is-previewing", mode === "preview");
+    };
+    if (matchMedia("(hover: hover)").matches && !reduced) {
+        frame.addEventListener("mouseenter", () => { if (frame.dataset.state !== "playing") mount("preview"); });
+        frame.addEventListener("mouseleave", () => { if (frame.dataset.state === "preview") { media.querySelector(".video-embed")?.remove(); frame.dataset.state = ""; frame.classList.remove("is-previewing"); } });
     }
-
-    const existingMode = frame.dataset.state;
-    if ((mode === "preview" && existingMode === "preview") || (mode === "play" && existingMode === "playing")) {
-        return;
-    }
-
-    const iframe = createVideoIframe(videoId, mode, frame.dataset.videoTitle);
-    const existingIframe = media.querySelector(".video-embed");
-
-    if (existingIframe) {
-        existingIframe.remove();
-    }
-
-    media.appendChild(iframe);
-    frame.classList.toggle("is-previewing", mode === "preview");
-    frame.classList.toggle("is-playing", mode === "play");
-    frame.dataset.state = mode === "preview" ? "preview" : "playing";
-    frame.setAttribute("aria-pressed", mode === "play" ? "true" : "false");
-};
-
-const initializeWorkVideos = () => {
-    if (!videoFrames.length) {
-        return;
-    }
-
-    videoFrames.forEach((frame) => {
-        const poster = frame.querySelector(".video-poster");
-        const badge = frame.querySelector(".video-badge");
-        const action = frame.querySelector(".video-action");
-        const title = frame.dataset.videoTitle || "Work session";
-        const videoId = extractYouTubeId(frame.dataset.youtubeUrl);
-
-        frame.dataset.state = "idle";
-        frame.setAttribute("aria-pressed", "false");
-
-        if (!videoId) {
-            frame.classList.add("is-placeholder");
-            if (badge) {
-                badge.textContent = "add youtube link";
-            }
-            if (action) {
-                action.innerHTML = '<i class="fa-solid fa-link"></i> preview unlocks after you paste a link';
-            }
-            return;
-        }
-
-        frame.dataset.videoId = videoId;
-        frame.classList.remove("is-placeholder");
-
-        if (poster) {
-            poster.style.backgroundImage = `linear-gradient(180deg, rgba(10, 11, 15, 0.04), rgba(10, 11, 15, 0.7)), linear-gradient(135deg, rgba(214, 112, 63, 0.18), transparent 45%), url("https://i.ytimg.com/vi/${videoId}/hqdefault.jpg")`;
-        }
-
-        const startPreview = () => {
-            if (frame.dataset.state === "playing") {
-                return;
-            }
-            mountVideoFrame(frame, "preview");
-        };
-
-        const stopPreview = () => {
-            if (frame.dataset.state !== "preview") {
-                return;
-            }
-            resetVideoFrame(frame);
-        };
-
-        const playVideo = () => {
-            videoFrames.forEach((otherFrame) => {
-                if (otherFrame !== frame) {
-                    resetVideoFrame(otherFrame);
-                }
-            });
-
-            mountVideoFrame(frame, "play");
-        };
-
-        frame.addEventListener("pointerenter", startPreview);
-        frame.addEventListener("pointerleave", stopPreview);
-        frame.addEventListener("focus", startPreview);
-        frame.addEventListener("blur", stopPreview);
-        frame.addEventListener("click", playVideo);
-        frame.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                playVideo();
-            }
-        });
-
-        frame.setAttribute("aria-label", `Play ${title}`);
-    });
-};
-
-initializeWorkVideos();
+    frame.addEventListener("click", () => mount("play"));
+    frame.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); mount("play"); } });
+});
