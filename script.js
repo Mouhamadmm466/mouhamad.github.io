@@ -1,5 +1,4 @@
-/* Walking between rooms, the dock, the theme, and small details.
-   The theme is applied before paint by a one-line script in each page's <head> (light unless chosen). */
+/* Walking between pages, the dock, and small details. */
 
 const root = document.documentElement;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -66,17 +65,6 @@ document.querySelectorAll(".dock .links a").forEach((a) => {
     a.addEventListener("mouseenter", () => { if (!pill) return; pill.style.left = a.offsetLeft + "px"; pill.style.width = a.offsetWidth + "px"; });
 });
 document.querySelector(".dock .links")?.addEventListener("mouseleave", placePill);
-
-/* ---- theme ---- */
-document.querySelectorAll(".theme").forEach((button) => {
-    const label = () => button.setAttribute("aria-label", root.dataset.theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-    label();
-    button.addEventListener("click", () => {
-        root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-        try { localStorage.setItem("portfolio-theme", root.dataset.theme); } catch (e) { /* ignore */ }
-        label();
-    });
-});
 
 /* ---- the time in Cleveland ---- */
 const clock = document.querySelector(".clock");

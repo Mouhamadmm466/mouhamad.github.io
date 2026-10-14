@@ -38,8 +38,6 @@ ICON = {
     "left": '<path d="M14.5 6 8.5 12l6 6"/>',
     "right": '<path d="M9.5 6l6 6-6 6"/>',
     "out": '<path d="M7 17 17 7M8 7h9v9"/>',
-    "sun": '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>',
-    "moon": '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/>',
     "play": '<path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/>',
     "copy": '<rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
     "github": '<path fill="currentColor" stroke="none" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a10.9 10.9 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>',
@@ -139,8 +137,7 @@ def item_list(label, items):
     head = f'<p class="mono">{escape(label)}</p>' if label else ""
     return f'<div class="now">{head}<ul>{"".join(rows)}</ul></div>'
 
-BOOT = ("(function(){var d=document.documentElement;d.classList.add('js');"
-        "try{var t=localStorage.getItem('portfolio-theme');d.dataset.theme=(t==='dark')?'dark':'light'}catch(e){d.dataset.theme='light'}})();")
+BOOT = "document.documentElement.classList.add('js');"
 
 def shell(key, depth, title, description, main, head_extra="", extra=""):
     p = "../" * depth
@@ -160,13 +157,13 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
     step = lambda h, name, rel: (f'<a class="step" href="{h}" rel="{rel}" data-step="{rel}" aria-label="{name} room">{icon("left" if rel == "prev" else "right")}</a>' if h
                                  else f'<a class="step" aria-disabled="true" aria-label="{name} room">{icon("left" if rel == "prev" else "right")}</a>')
     return f"""<!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(description)}">
-<meta name="theme-color" content="#FFFAF1">
+<meta name="theme-color" content="#FFF3E8">
 <meta property="og:title" content="{escape(title)}">
 <meta property="og:description" content="{escape(description)}">
 <meta property="og:type" content="website">
@@ -179,7 +176,7 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
 </head>
 <body data-room="{key}">
 <a class="skip" href="#main">Skip to content</a>
-<div class="haze" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+<div class="haze" aria-hidden="true"></div>
 <div class="corner left" aria-hidden="true">{corner}</div>
 <div class="corner right" aria-hidden="true"><span class="dot"></span><span class="where">Cleveland, OH ·</span><time class="clock">—</time></div>
 <main id="main" class="room">
@@ -192,8 +189,6 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
   {step(prev_, "Previous", "prev")}
   <div class="links"><span class="pill" aria-hidden="true"></span>{links}</div>
   {step(next_, "Next", "next")}
-  <span class="sep" aria-hidden="true"></span>
-  <button class="theme" type="button" aria-label="Switch to dark mode">{icon("sun", "sun")}{icon("moon", "moon")}</button>
 </nav>
 <script src="{p}script.js" defer></script>
 </body>
@@ -272,7 +267,7 @@ def entries():
 def contact():
     logos = "".join(f'<a href="{u}" target="_blank" rel="noopener" aria-label="{n}" title="{n}">{icon(k)}</a>' for n, u, k in SOCIALS)
     main = f"""<section class="col center" aria-labelledby="t">
-  <h1 id="t" class="title">Say hello.</h1>
+  <h1 id="t" class="title">Let's stay in touch.</h1>
   <div class="email"><a href="mailto:{EMAIL}">{EMAIL}</a><button class="copy" type="button" data-copy="{EMAIL}"><span>copy</span></button></div>
   <nav class="socials" aria-label="Elsewhere">{logos}</nav>
 </section>"""
