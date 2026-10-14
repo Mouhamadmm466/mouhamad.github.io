@@ -108,19 +108,13 @@ p { margin: 0; }
 .theme .moon { display: none; }
 :root[data-theme="dark"] .theme .sun { display: none; }
 :root[data-theme="dark"] .theme .moon { display: block; }
-.dock .here { display: none; padding: 0 16px; color: var(--ink); gap: 9px; min-width: 150px; }
-.dock .here i { width: 6px; height: 6px; border-radius: 50%; background: var(--sahel); }
-.dock-sheet { position: fixed; z-index: 39; left: 50%; bottom: 82px; transform: translateX(-50%); width: min(320px, calc(100vw - 32px)); padding: 8px; border-radius: 26px;
-  background: var(--glass); backdrop-filter: saturate(170%) blur(22px); -webkit-backdrop-filter: saturate(170%) blur(22px);
-  box-shadow: inset 0 0 0 1px var(--glass-edge), 0 0 0 1px var(--rule-soft), var(--shadow); display: grid; animation: sheet .35s var(--ui) both; }
-.dock-sheet[hidden] { display: none; }
-.dock-sheet a { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-radius: 18px; text-decoration: none; color: var(--ink); font-size: 21px; font-weight: 500; letter-spacing: -.02em; }
-.dock-sheet a span { font: 500 12px/1 var(--mono); color: var(--muted); }
-.dock-sheet a[aria-current="page"] { background: var(--surface-2); }
-@keyframes sheet { from { opacity: 0; transform: translate(-50%, 10px); } }
+/* phones: every page stays in the bar, smaller and evenly spaced; swiping replaces the arrows */
 @media (max-width: 760px) {
-  .dock .links { display: none; }
-  .dock .here { display: inline-flex; }
+  .dock { left: 10px; right: 10px; transform: none; padding: 5px; gap: 2px; }
+  .dock .step, .dock .sep { display: none; }
+  .dock .links { flex: 1; gap: 0; }
+  .dock .links a { flex: 1 1 0; min-width: 0; padding: 0 2px; font: 500 clamp(11px, 3.4vw, 13.5px)/1 var(--sans); letter-spacing: 0; }
+  .dock .theme { width: 40px; flex: none; }
 }
 
 /* ---------------------------------------------------------------- 01 home: the manifesto */

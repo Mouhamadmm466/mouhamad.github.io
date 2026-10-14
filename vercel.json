@@ -28,29 +28,29 @@
       "permanent": true
     },
     {
-      "source": "/about",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/momo",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/sports",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/photography",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/initiatives",
-      "destination": "/build",
+      "source": "/initiatives/:path*",
+      "destination": "/build/",
       "permanent": true
+    },
+    {
+      "source": "/about/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/momo/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/sports/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/photography/:path*",
+      "destination": "/",
+      "permanent": false
     }
   ],
   "trailingSlash": true

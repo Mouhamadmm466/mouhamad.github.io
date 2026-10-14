@@ -54,7 +54,7 @@ def icon(name, cls=""):
 
 # ---------------------------------------------------------------- content (Mouhamad's words)
 MANIFESTO = ("i create and build,", "therefore i am!")
-THOUGHT = ("I create to discover if the things that exist only in my thoughts can find a place in reality. "
+THOUGHT = ("I create to discover if the things that exist only in my thoughts can find a place in your reality; "
            "and perhaps, in giving form to what was not there before, I give form to myself.")
 
 CURRENTLY = [  # (name, url, shown domain, description)
@@ -149,7 +149,6 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
     idx = next((i for i, r in enumerate(ROOMS) if r[0] == key), None)
     cur = ' aria-current="page"'
     links = "".join(f'<a href="{href(path)}" data-i="{i}"{cur if i == idx else ""}>{name}</a>' for i, (name, path, _) in enumerate(ROOMS))
-    sheet = "".join(f'<a href="{href(path)}" data-i="{i}"{cur if i == idx else ""}>{name.capitalize()}<span>{i + 1:02d}</span></a>' for i, (name, path, _) in enumerate(ROOMS))
     if idx is None:
         corner, here_label = '', escape(title.split(" · ")[0])
         prev_ = next_ = None
@@ -192,12 +191,10 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
 <nav class="dock" aria-label="Rooms">
   {step(prev_, "Previous", "prev")}
   <div class="links"><span class="pill" aria-hidden="true"></span>{links}</div>
-  <button class="here" type="button" aria-expanded="false" aria-controls="dock-sheet"><i></i>{here_label}</button>
   {step(next_, "Next", "next")}
   <span class="sep" aria-hidden="true"></span>
   <button class="theme" type="button" aria-label="Switch to dark mode">{icon("sun", "sun")}{icon("moon", "moon")}</button>
 </nav>
-<nav id="dock-sheet" class="dock-sheet" aria-label="Rooms" hidden>{sheet}</nav>
 <script src="{p}script.js" defer></script>
 </body>
 </html>
@@ -249,7 +246,6 @@ def research():
     items = [(r["title"], soft(r["role"]), r["href"], r["link"], r["body"]) for r in RESEARCH]
     main = f"""<section class="col" aria-labelledby="t">
   <h1 id="t" class="sr-only">Research</h1>
-  <p class="lede">Questions I have followed into code: speech for Hausa, smaller language models, and financial prediction.</p>
   {item_list("Research;", items)}
 </section>"""
     write("research/index.html", shell("research", 1, "Research · Mouhamad Mamane", "Hausa text-to-speech, compressing language models, NSRI and a first-place Zindi solution.", main))

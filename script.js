@@ -18,7 +18,7 @@ const go = (href, dir) => {
     try { sessionStorage.setItem(DIR, dir); } catch (e) { /* ignore */ }
     location.href = href;
 };
-document.querySelectorAll(".dock a[data-i], .dock-sheet a[data-i]").forEach((a) => {
+document.querySelectorAll(".dock a[data-i]").forEach((a) => {
     a.addEventListener("click", () => {
         try { sessionStorage.setItem(DIR, Number(a.dataset.i) < currentIndex() ? "back" : "forward"); } catch (e) { /* ignore */ }
     });
@@ -66,16 +66,6 @@ document.querySelectorAll(".dock .links a").forEach((a) => {
     a.addEventListener("mouseenter", () => { if (!pill) return; pill.style.left = a.offsetLeft + "px"; pill.style.width = a.offsetWidth + "px"; });
 });
 document.querySelector(".dock .links")?.addEventListener("mouseleave", placePill);
-
-/* ---- the compact dock (phones): the current room opens a list ---- */
-const here = document.querySelector(".dock .here");
-const sheet = document.getElementById("dock-sheet");
-if (here && sheet) {
-    const setOpen = (open) => { sheet.hidden = !open; here.setAttribute("aria-expanded", String(open)); };
-    here.addEventListener("click", (e) => { e.stopPropagation(); setOpen(sheet.hidden); });
-    document.addEventListener("click", (e) => { if (!sheet.hidden && !sheet.contains(e.target)) setOpen(false); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sheet.hidden) { setOpen(false); here.focus(); } });
-}
 
 /* ---- theme ---- */
 document.querySelectorAll(".theme").forEach((button) => {
