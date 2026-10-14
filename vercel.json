@@ -3,6 +3,36 @@
   "framework": null,
   "redirects": [
     {
+      "source": "/photography/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/sports/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/momo/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/about/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/initiatives/",
+      "destination": "/build/",
+      "permanent": true
+    },
+    {
+      "source": "/writings/",
+      "destination": "/entries/",
+      "permanent": true
+    },
+    {
       "source": "/writings",
       "destination": "/entries",
       "permanent": true

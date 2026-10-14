@@ -78,6 +78,7 @@ p { margin: 0; }
 .title { font-size: clamp(26px, 2.5vw, 36px); font-weight: 400; line-height: 1.25; letter-spacing: -.015em; }
 .col { max-width: 760px; display: grid; gap: 18px; justify-items: start; }
 .col > .now, .col > .toc, .col > .email { width: 100%; }
+.quote .thought { margin-top: 10px; }
 .col.center { margin-inline: auto; justify-items: center; text-align: center; }
 .col.center > .email { justify-content: center; }
 .socials { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }

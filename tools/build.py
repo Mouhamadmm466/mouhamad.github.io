@@ -246,6 +246,7 @@ def research():
     items = [(r["title"], soft(r["role"]), r["href"], r["link"], r["body"]) for r in RESEARCH]
     main = f"""<section class="col" aria-labelledby="t">
   <h1 id="t" class="sr-only">Research</h1>
+  <div class="quote"><p class="greet">i am a scientist!</p><p class="thought">i invent, transform and destroy for a living.</p></div>
   {item_list("Research;", items)}
 </section>"""
     write("research/index.html", shell("research", 1, "Research · Mouhamad Mamane", "Hausa text-to-speech, compressing language models, NSRI and a first-place Zindi solution.", main))
