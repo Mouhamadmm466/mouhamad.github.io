@@ -125,6 +125,20 @@ def soft(t):
     """Lowercases only the first letter, so place names keep their capitals (\"organiser, Niger\")."""
     return t[:1].lower() + t[1:]
 
+# Momo the penguin (the favicon), drawn inline so its eyes can follow the cursor. Sits right after "(momo)" in the greeting.
+PENGUIN = """<button class="penguin" type="button" aria-label="Momo the penguin. Click to say hi.">
+  <span class="say" aria-hidden="true">hi!</span>
+  <svg viewBox="9 5 46 53" aria-hidden="true">
+    <g class="body">
+      <ellipse cx="22" cy="54.5" rx="6" ry="2.6" fill="#E8935A"/><ellipse cx="42" cy="54.5" rx="6" ry="2.6" fill="#E8935A"/>
+      <path d="M32 7 C46 7 52 20 52 34 C52 47 44 55 32 55 C20 55 12 47 12 34 C12 20 18 7 32 7 Z" fill="#1C1410"/>
+      <path d="M32 17 C41 17 45 25 45 34 C45 44 40 50 32 50 C24 50 19 44 19 34 C19 25 23 17 32 17 Z" fill="#FFFAF1"/>
+      <g class="eyes"><g class="pupils"><circle cx="26.5" cy="26" r="2.4" fill="#1C1410"/><circle cx="37.5" cy="26" r="2.4" fill="#1C1410"/></g></g>
+      <path d="M28.5 30.5 L35.5 30.5 L32 35.5 Z" fill="#E8935A" stroke="#E8935A" stroke-width="1.5" stroke-linejoin="round"/>
+    </g>
+  </svg>
+</button>"""
+
 def item_list(label, items):
     """A quiet list: name (with an optional muted note), a link or note on the right, and one line of description."""
     rows = []
@@ -213,7 +227,7 @@ def home():
     now = item_list("Currently;", [(name, None, u, dom, desc) for name, u, dom, desc in CURRENTLY])
     main = f"""<section class="home" aria-label="Home">
   <div class="home-col">
-    <p class="greet">{words(g)}</p>
+    <p class="greet">{words(g)} {PENGUIN}</p>
     <h1 class="manifesto">{words(MANIFESTO[0], n0)} {words(MANIFESTO[1], n1)}</h1>
     <p class="thought">{words(THOUGHT)}</p>
     <div class="roles">{roles}</div>

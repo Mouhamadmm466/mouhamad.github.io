@@ -74,6 +74,30 @@ if (clock) {
     tick(); setInterval(tick, 20000);
 }
 
+/* ---- Momo the penguin: eyes follow the cursor; a click makes it hop and say hi ---- */
+const penguin = document.querySelector(".penguin");
+if (penguin) {
+    const pupils = penguin.querySelector(".pupils");
+    if (!reduced && matchMedia("(hover: hover)").matches && pupils) {
+        let raf = 0, px = 0, py = 0;
+        window.addEventListener("pointermove", (e) => {
+            px = e.clientX; py = e.clientY;
+            if (raf) return;
+            raf = requestAnimationFrame(() => {
+                raf = 0;
+                const r = penguin.getBoundingClientRect();
+                const cx = r.left + r.width / 2, cy = r.top + r.height * .4;
+                const dx = px - cx, dy = py - cy, len = Math.hypot(dx, dy) || 1, k = Math.min(1, len / 140);
+                pupils.style.transform = `translate(${(dx / len * 1.7 * k).toFixed(2)}px, ${(dy / len * 1.5 * k).toFixed(2)}px)`;
+            });
+        }, { passive: true });
+    }
+    penguin.addEventListener("click", () => {
+        penguin.classList.remove("hop"); void penguin.offsetWidth; penguin.classList.add("hop");
+        clearTimeout(penguin._t); penguin._t = setTimeout(() => penguin.classList.remove("hop"), 1400);
+    });
+}
+
 /* ---- copy the email ---- */
 document.querySelectorAll("[data-copy]").forEach((b) => {
     b.addEventListener("click", async () => {

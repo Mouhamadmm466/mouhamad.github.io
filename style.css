@@ -186,3 +186,23 @@ html[data-dir="back"]::view-transition-new(room) { animation-name: room-in-back;
   ::view-transition-group(*) { animation-duration: .2s; }
 }
 
+
+/* ---------------------------------------------------------------- Momo the penguin, right after "(momo)" in the greeting */
+.penguin { position: relative; display: inline-block; width: 1.5em; height: 1.72em; margin-left: .05em; vertical-align: -.42em; padding: 0; border: 0; background: none; cursor: pointer; }
+.penguin svg { width: 100%; height: 100%; overflow: visible; }
+.penguin .body { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 5s ease-in-out infinite alternate; }
+.penguin .eyes { transform-box: fill-box; transform-origin: 50% 50%; animation: blink 6s infinite; }
+.penguin .pupils { transition: transform .25s var(--ui); }
+.penguin:focus-visible { outline-offset: 4px; }
+.penguin.hop .body { animation: hop .7s var(--ease); }
+.penguin .say { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translate(-50%, 4px); padding: 5px 9px; border-radius: 999px; background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--glass-edge), 0 0 0 1px var(--rule-soft); font: 500 12px/1 var(--mono); color: var(--ink); opacity: 0; pointer-events: none;
+  transition: opacity .3s var(--ui), transform .3s var(--ui); white-space: nowrap; }
+.penguin.hop .say { opacity: 1; transform: translate(-50%, 0); }
+@keyframes sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes blink { 0%, 93%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+@keyframes hop { 0% { transform: translateY(0) scale(1, 1); } 18% { transform: translateY(0) scale(1.08, .9); } 45% { transform: translateY(-12px) scale(.95, 1.06); }
+  75% { transform: translateY(0) scale(1.06, .94); } 100% { transform: translateY(0) scale(1, 1); } }
+.js .greet .penguin { animation: pop .8s var(--ease) .75s both; }
+@keyframes pop { from { opacity: 0; transform: translateY(6px) scale(.6); } }
+@media (prefers-reduced-motion: reduce) { .penguin .body, .penguin .eyes, .js .greet .penguin { animation: none; } .penguin.hop .body { animation: none; } }
