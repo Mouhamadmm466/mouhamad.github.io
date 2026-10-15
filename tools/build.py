@@ -58,7 +58,7 @@ THOUGHT = ("I create to discover if the things that only exist in my imagination
 CURRENTLY = [  # (name, url, shown domain, description)
     ("Namu", "https://www.namu-ai.org", "namu-ai.org", "African AI research and technology: speech-native models, datasets and products for every language and every community."),
     # Ex Libris: Latin for "from the library of", the bookplate that marks a book as yours. Personal AGI project; link to come.
-    ("Ex Libris", None, "coming soon", "Building personal AGI that anyone can own. An intelligence that lives on your device and grows with you."),
+    ("Ex Libris", None, "coming soon", "Building personal AGI that anyone can own. An intelligent library of you that lives on your device and grows with you."),
     ("dot*WTF", "https://cwru.wtf/", "cwru.wtf", "A collective of student builders, researchers, artists and hackers, encouraging interdisciplinary collaboration."),
 ]
 ROLES = [  # the two lines under the manifesto: (role, @place, url, note)
