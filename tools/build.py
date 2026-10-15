@@ -52,12 +52,14 @@ def icon(name, cls=""):
 
 # ---------------------------------------------------------------- content (Mouhamad's words)
 MANIFESTO = ("i create and build,", "therefore i am!")
-THOUGHT = ("I create to discover if the things that exist only in my thoughts can find a place in your reality; "
+THOUGHT = ("I create to discover if the things that only exist in my imagination can find a place in your reality; "
            "and perhaps, in giving form to what was not there before, I give form to myself.")
 
 CURRENTLY = [  # (name, url, shown domain, description)
     ("Namu", "https://www.namu-ai.org", "namu-ai.org", "African AI research and technology: speech-native models, datasets and products for every language and every community."),
-    ("dot*WTF", "https://cwru.wtf/", "cwru.wtf", "We Tinker Fearlessly: a collective of student builders, researchers, artists and hackers, encouraging interdisciplinary collaboration."),
+    # Ex Libris: Latin for "from the library of", the bookplate that marks a book as yours. Personal AGI project; link to come.
+    ("Ex Libris", None, "coming soon", "Building personal AGI that anyone can own. An intelligence that lives on your device and grows with you."),
+    ("dot*WTF", "https://cwru.wtf/", "cwru.wtf", "A collective of student builders, researchers, artists and hackers, encouraging interdisciplinary collaboration."),
 ]
 ROLES = [  # the two lines under the manifesto: (role, @place, url, note)
     ("Co-founder", "Namu", "https://www.namu-ai.org", "speech AI for the languages of Africa"),
