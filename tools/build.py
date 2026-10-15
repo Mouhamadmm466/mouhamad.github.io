@@ -170,7 +170,9 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
 <meta property="og:image" content="https://mouhamad-github-io.vercel.app/Assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <script>{BOOT}</script>
-{head_extra}<link rel="icon" type="image/svg+xml" href="{p}Assets/images/favicon.svg">
+{head_extra}<link rel="icon" type="image/png" sizes="32x32" href="{p}Assets/images/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="{p}Assets/images/favicon.svg">
+<link rel="apple-touch-icon" href="{p}Assets/images/apple-touch-icon.png">
 <link rel="preload" href="{p}Assets/fonts/dmsans-lab.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{p}style.css">
 </head>
