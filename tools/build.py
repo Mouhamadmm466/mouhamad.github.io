@@ -177,7 +177,6 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
 <body data-room="{key}">
 <a class="skip" href="#main">Skip to content</a>
 <div class="haze" aria-hidden="true"></div>
-<div class="corner left" aria-hidden="true">{corner}</div>
 <div class="corner right" aria-hidden="true"><span class="dot"></span><span class="where">Cleveland, OH ·</span><time class="clock">—</time></div>
 <main id="main" class="room">
 <div class="room-inner">
