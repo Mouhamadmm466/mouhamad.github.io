@@ -204,5 +204,19 @@ html[data-dir="back"]::view-transition-new(room) { animation-name: room-in-back;
 @keyframes hop { 0% { transform: translateY(0) scale(1, 1); } 18% { transform: translateY(0) scale(1.08, .9); } 45% { transform: translateY(-12px) scale(.95, 1.06); }
   75% { transform: translateY(0) scale(1.06, .94); } 100% { transform: translateY(0) scale(1, 1); } }
 .js .greet .penguin { animation: pop .8s var(--ease) .75s both; }
+/* on arrival: crouch, jump, backflip, land with a squash, then say hi */
+.penguin svg { transform-box: view-box; transform-origin: 50% 62%; }
+.js .greet .penguin svg { animation: backflip 1.15s cubic-bezier(.3, .1, .3, 1) 1.55s; }
+.js .greet .penguin .say { animation: say-hi 1.9s ease 2.65s; }
+@keyframes backflip {
+  0%   { transform: translateY(0) rotate(0) scale(1, 1); }
+  14%  { transform: translateY(2px) rotate(0) scale(1.14, .82); }
+  30%  { transform: translateY(-22px) rotate(-60deg) scale(.94, 1.08); }
+  52%  { transform: translateY(-30px) rotate(-200deg) scale(1, 1); }
+  72%  { transform: translateY(-12px) rotate(-340deg) scale(1, 1); }
+  84%  { transform: translateY(0) rotate(-360deg) scale(1.16, .8); }
+  93%  { transform: translateY(-2px) rotate(-360deg) scale(.96, 1.05); }
+  100% { transform: translateY(0) rotate(-360deg) scale(1, 1); } }
+@keyframes say-hi { 0% { opacity: 0; transform: translate(-50%, 4px); } 12%, 82% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 0); } }
 @keyframes pop { from { opacity: 0; transform: translateY(6px) scale(.6); } }
-@media (prefers-reduced-motion: reduce) { .penguin .body, .penguin .eyes, .js .greet .penguin { animation: none; } .penguin.hop .body { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .penguin .body, .penguin .eyes, .js .greet .penguin, .js .greet .penguin svg, .js .greet .penguin .say { animation: none; } .penguin.hop .body { animation: none; } }
