@@ -60,6 +60,7 @@ CURRENTLY = [  # (name, url, shown domain, description)
     # Ex Libris: Latin for "from the library of", the bookplate that marks a book as yours. Personal AGI project.
     ("Ex Libris", "https://www.x-libris.xyz/", "x-libris.xyz", "Building personal AGI that anyone can own. An intelligent library of you that lives on your device and grows with you."),
     ("dot*WTF", "https://cwru.wtf/", "cwru.wtf", "A collective of student builders, researchers, artists and hackers, encouraging interdisciplinary collaboration."),
+    ("Isca", None, "", "Exploring how AI and software can build smarter wireless networks that are easier to manage, more reliable, and optimize at scale."),
 ]
 ROLES = [  # the two lines under the manifesto: (role, @place, url, note)
     ("Co-founder", "Namu", "https://www.namu-ai.org", "speech AI for the languages of Africa"),
