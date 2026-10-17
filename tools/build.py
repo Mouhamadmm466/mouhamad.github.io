@@ -60,8 +60,27 @@ CURRENTLY = [  # (name, url, shown domain, description)
     # Ex Libris: Latin for "from the library of", the bookplate that marks a book as yours. Personal AGI project.
     ("Ex Libris", "https://www.x-libris.xyz/", "x-libris.xyz", "Building personal AGI that anyone can own. An intelligent library of you that lives on your device and grows with you."),
     ("dot*WTF", "https://cwru.wtf/", "cwru.wtf", "A collective of student builders, researchers, artists and hackers, encouraging interdisciplinary collaboration."),
-    ("Isca", None, "", "Exploring how AI and software can build smarter wireless networks that are easier to manage, more reliable, and optimize at scale."),
+    ("Isca", "isca/", "the story", "Exploring how AI and software can build smarter wireless networks that are easier to manage, more reliable, and optimize at scale."),
 ]
+# Isca, a personal exploration: AI and software for wireless networks. One story, told beside a drawing of a
+# network that grows and organises itself as you read (Assets/isca.js). Each chapter: (stage of the drawing,
+# a small scene label, paragraphs); a paragraph starting with "!" is set large.
+ISCA_LEDE = "Exploring how AI and software can help us build smarter, more reliable wireless networks."
+ISCA = [  # (stage, scene label, paragraphs)
+    (0, "age eight", ["I was eight when I first wondered how two devices could talk without a wire between them. So I started a small project to find out how information could travel through something I couldn't even see.",
+         "I didn't know about protocols or radio frequencies. I didn't know how the internet worked. I was just curious, and like most things I built at that age, I ended up with more questions than answers."]),
+    (1, "going back", ["One thing I have come to love about learning is going back to something you once tried to build, this time knowing how it works. The idea often stays the same. What changes is what you know, and what you can do with it."]),
+    (2, "this summer", ["This summer I spent time on research in AI and wireless networking. I learned how wireless networks behave: how they handle interference and traffic, and how software and machine learning can help them perform better.",
+         "Somewhere along the way, I started thinking about that little project again."]),
+    (3, "the question", ["!So I am picking it up again, with a much bigger goal.",
+         "I want to find out whether AI and software can design, run and improve wireless networks. Can a network learn from its own conditions, see a problem before it happens, and make better decisions about how it should work?"]),
+    (4, "the plan", ["I am starting with a simulated wireless network, where I can try different setups, traffic patterns and interference.",
+         "Next, I want to build software that watches how the network performs, and test AI models that help choose channels, ease congestion and share resources. Then I want to take what works in simulation and try it on real wireless hardware."]),
+    (5, "scale", ["What interests me most is scale: hundreds or thousands of access points working together, without someone adjusting them by hand."]),
+    (6, "still exploring", ["This is still an exploration. I don't know exactly where it will lead, and that is part of what makes it interesting.",
+         "!The question that got me started hasn't changed. I just know more now, I have better tools, and I get to explore it further."]),
+]
+
 ROLES = [  # the two lines under the manifesto: (role, @place, url, note)
     ("Co-founder", "Namu", "https://www.namu-ai.org", "speech AI for the languages of Africa"),
     ("Student", "CWRU", "https://case.edu", "Computer Science & Applied Math"),
@@ -147,10 +166,13 @@ def item_list(label, items):
     rows = []
     for name, note, url, right, desc in items:
         nm = f'<span class="nm">{escape(name)}{f" <em>{escape(note)}</em>" if note else ""}</span>'
-        rt = f'<span class="dom">{escape(right)}{icon("out") if url else ""}</span>' if right else ""
+        outside = bool(url) and url.startswith("http")
+        rt = f'<span class="dom">{escape(right)}{icon("out" if outside else "arrow") if url else ""}</span>' if right else ""
         ds = f'<span class="ds">{escape(desc)}</span>' if desc else ""
         inner = nm + rt + ds
-        rows.append(f'<li><a href="{url}" target="_blank" rel="noopener">{inner}</a></li>' if url else f'<li><div class="row">{inner}</div></li>')
+        if not url: rows.append(f'<li><div class="row">{inner}</div></li>')
+        elif outside: rows.append(f'<li><a href="{url}" target="_blank" rel="noopener">{inner}</a></li>')
+        else: rows.append(f'<li><a href="{url}">{inner}</a></li>')
     head = f'<p class="mono">{escape(label)}</p>' if label else ""
     return f'<div class="now">{head}<ul>{"".join(rows)}</ul></div>'
 
@@ -282,6 +304,27 @@ def entries():
 </article>"""
         write(f"entries/{f}", shell("entries", 1, f"{t} · Mouhamad Mamane", f"Entry {n}: {t}", art))
 
+def isca():
+    chapters = []
+    for stage, label, paras in ISCA:
+        ps = "".join(f'<p class="big">{escape(t[1:])}</p>' if t.startswith("!") else f"<p>{escape(t)}</p>" for t in paras)
+        chapters.append(f'<section class="chapter" data-stage="{stage}"><p class="mono"><b>{stage + 1:02d}</b> {escape(label)}</p>{ps}</section>')
+    title = "Isca"
+    main = f"""<article class="isca" aria-labelledby="t">
+  <header class="isca-head">
+    <a class="back" href="../">{icon("back")}home</a>
+    <p class="mono">a personal exploration</p>
+    <h1 id="t" class="isca-title">{words(title)}</h1>
+    <p class="lede">{words(ISCA_LEDE, 1)}</p>
+  </header>
+  <figure class="isca-fig" aria-hidden="true"><canvas id="isca-net"></canvas><figcaption class="mono"><b>01</b> <span>two devices, and a signal you cannot see</span></figcaption></figure>
+  <div class="isca-story">{"".join(chapters)}
+    <a class="back isca-end" href="../">{icon("back")}home</a>
+  </div>
+</article>"""
+    extra = '<script src="../Assets/isca.js" defer></script>'
+    write("isca/index.html", shell("isca", 1, "Isca · Mouhamad Mamane", ISCA_LEDE, main, extra=extra))
+
 def contact():
     logos = "".join(f'<a href="{u}" target="_blank" rel="noopener" aria-label="{n}" title="{n}">{icon(k)}</a>' for n, u, k in SOCIALS)
     main = f"""<section class="col center" aria-labelledby="t">
@@ -333,4 +376,4 @@ def not_found():
     write("404.html", shell("404", 0, "Not found · Mouhamad Mamane", "Page not found.", main, head_extra=head))
 
 if __name__ == "__main__":
-    home(); initiatives(); research(); entries(); contact(); ten_thousand(); not_found()
+    home(); initiatives(); research(); entries(); isca(); contact(); ten_thousand(); not_found()
