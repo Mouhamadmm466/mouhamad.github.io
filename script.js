@@ -74,9 +74,38 @@ if (clock) {
     tick(); setInterval(tick, 20000);
 }
 
+/* ---- Haptics, like Duolingo: a light tick when Momo leaves the ground, a firmer one when it lands.
+   Android browsers have the Vibration API. iPhones (Safari 18 and later) have none, but tapping the label of a
+   native switch plays the system haptic, so a hidden one stands in. Browsers only allow either after the
+   visitor has touched the page, so the backflip on arrival buzzes only if they already have; a tap always does. */
+const haptic = (() => {
+    if (reduced) return () => {};
+    if (typeof navigator.vibrate === "function") return (ms) => {
+        if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return; /* blocked until a first touch */
+        try { navigator.vibrate(ms); } catch (e) {}
+    };
+    const iOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (/Mac/.test(navigator.userAgent) && "ontouchend" in document);
+    if (!iOS) return () => {};
+    return () => {
+        const label = document.createElement("label"), input = document.createElement("input");
+        label.setAttribute("aria-hidden", "true"); label.style.display = "none";
+        input.type = "checkbox"; input.setAttribute("switch", "");
+        label.appendChild(input); document.head.appendChild(label);
+        label.click(); label.remove();
+    };
+})();
+/* Two buzzes timed to a jump: a light one at take-off, a firmer one at landing (fractions of `duration` ms). */
+const jumpHaptics = (duration, takeoff, landing) => {
+    setTimeout(() => haptic(10), duration * takeoff);
+    setTimeout(() => haptic(24), duration * landing);
+};
+
 /* ---- Momo the penguin: eyes follow the cursor; a click makes it hop and say hi ---- */
 const penguin = document.querySelector(".penguin");
 if (penguin) {
+    /* The arrival backflip (style.css): crouch, take off at 14%, land at 84% of 1.15 s. */
+    const svg = penguin.querySelector("svg");
+    if (svg) svg.addEventListener("animationstart", (e) => { if (e.animationName === "backflip") jumpHaptics(1150, .14, .84); });
     const pupils = penguin.querySelector(".pupils");
     if (!reduced && matchMedia("(hover: hover)").matches && pupils) {
         let raf = 0, px = 0, py = 0;
@@ -94,6 +123,7 @@ if (penguin) {
     }
     penguin.addEventListener("click", () => {
         penguin.classList.remove("hop"); void penguin.offsetWidth; penguin.classList.add("hop");
+        jumpHaptics(700, .18, .75); /* the hop: off the ground at 18%, down at 75% of 0.7 s */
         clearTimeout(penguin._t); penguin._t = setTimeout(() => penguin.classList.remove("hop"), 1400);
     });
 }
