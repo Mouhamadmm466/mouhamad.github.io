@@ -150,11 +150,14 @@ p { margin: 0; }
 .entry .title { margin: 10px 0 18px; }
 
 /* ---------------------------------------------------------------- 06 contact */
-.email { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 4px; }
-.email a { font-size: clamp(20px, 2vw, 26px); font-weight: 400; letter-spacing: -.015em; color: var(--ink); text-decoration: none; background: linear-gradient(var(--sahel), var(--sahel)) 0 100% / 100% 2px no-repeat;
+.ways { display: grid; gap: 14px; justify-items: center; margin-top: 6px; }
+.ways a { font-size: clamp(20px, 2vw, 26px); font-weight: 400; letter-spacing: -.015em; color: var(--ink); text-decoration: none; background: linear-gradient(var(--sahel), var(--sahel)) 0 100% / 100% 2px no-repeat;
   padding-bottom: 4px; transition: background-size .6s var(--ease); }
-.email a:hover { background-size: 0 2px; background-position: 100% 100%; }
-.copy { height: 32px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--surface-2); color: var(--ink); cursor: pointer; font: 500 13px/1 var(--mono); display: inline-flex; gap: 8px; align-items: center;
+.ways a:hover { background-size: 0 2px; background-position: 100% 100%; }
+.email { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 8px; font-size: 15px; color: var(--muted); }
+.email a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--line); transition: text-decoration-color .4s var(--ui); }
+.email a:hover { text-decoration-color: var(--sahel); }
+.copy { height: 28px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--surface-2); color: var(--ink); cursor: pointer; font: 500 12px/1 var(--mono); display: inline-flex; gap: 8px; align-items: center;
   transition: background-color .4s var(--ui), color .4s var(--ui); }
 .copy:hover { background: var(--sahel); color: #1c1410; }
 /* ---------------------------------------------------------------- 10000+ (off the floor plan) */

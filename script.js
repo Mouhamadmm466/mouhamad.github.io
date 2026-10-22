@@ -138,6 +138,39 @@ document.querySelectorAll("[data-copy]").forEach((b) => {
     });
 });
 
+/* ---- contact: the booking and the message form open over the page instead of a new tab.
+   Cal.com's and Tally's scripts load only when a visitor reaches for a link (hover, focus or touch); if they
+   cannot load, the link opens the page itself. */
+const loadScript = (src) => new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = src; s.async = true; s.onload = ok; s.onerror = fail;
+    document.head.appendChild(s);
+});
+const once = (fn) => { let p; return () => p || (p = fn()); };
+const tallyReady = once(() => loadScript("https://tally.so/widgets/embed.js"));
+const calReady = once(() => {
+    /* Cal.com's loader: calls queue up on window.Cal until embed.js arrives and plays them */
+    const Cal = window.Cal = function () { Cal.q.push(arguments); };
+    Cal.q = []; Cal.ns = {}; Cal.loaded = true;
+    const ns = Cal.ns.meeting = function () { ns.q.push(arguments); };
+    ns.q = [["init", "meeting", { origin: "https://cal.com" }]];
+    Cal.q.push(["initNamespace", "meeting"]);
+    ns("ui", { theme: "light", layout: "month_view", cssVarsPerTheme: { light: { "cal-brand": "#1c1410" } } });
+    return loadScript("https://app.cal.com/embed/embed.js");
+});
+const popups = [
+    ["[data-tally]", tallyReady, (a) => window.Tally.openPopup(a.dataset.tally, { layout: "modal", width: 560, overlay: true })],
+    ["[data-cal]", calReady, (a) => window.Cal.ns.meeting("modal", { calLink: a.dataset.cal, config: { layout: "month_view", theme: "light" } })],
+];
+popups.forEach(([sel, ready, open]) => document.querySelectorAll(sel).forEach((a) => {
+    ["pointerenter", "focus", "touchstart"].forEach((t) => a.addEventListener(t, () => { ready().catch(() => {}); }, { once: true, passive: true }));
+    a.addEventListener("click", (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return; /* a new tab, on purpose */
+        e.preventDefault();
+        ready().then(() => open(a)).catch(() => { location.href = a.href; });
+    });
+}));
+
 /* ---- 10000+: paste a YouTube link into data-youtube-url and the card comes alive ---- */
 const youTubeId = (input) => {
     const value = (input || "").trim();

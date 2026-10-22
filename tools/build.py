@@ -15,6 +15,10 @@ from html import escape
 
 ROOT = Path(__file__).resolve().parent.parent
 EMAIL = "mouhamadhub@gmail.com"
+# The two ways in on the contact page. Each opens over the page (Cal.com's and Tally's popups, script.js);
+# without JavaScript they open the page itself.
+BOOK = ("Book a call", "https://cal.com/mouhamad-mamane/meeting")
+WRITE = ("Send a message", "https://tally.so/r/VpL1Zv")
 SOCIALS = [
     ("GitHub", "https://github.com/Mouhamadmm466", "github"),
     ("LinkedIn", "https://www.linkedin.com/in/mouhamadmm", "linkedin"),
@@ -327,9 +331,15 @@ def isca():
 
 def contact():
     logos = "".join(f'<a href="{u}" target="_blank" rel="noopener" aria-label="{n}" title="{n}">{icon(k)}</a>' for n, u, k in SOCIALS)
+    cal = BOOK[1].split("cal.com/", 1)[1]        # "mouhamad-mamane/meeting"
+    tally = WRITE[1].rstrip("/").rsplit("/", 1)[1]  # "VpL1Zv"
     main = f"""<section class="col center" aria-labelledby="t">
   <h1 id="t" class="title">Let's stay in touch.</h1>
-  <div class="email"><a href="mailto:{EMAIL}">{EMAIL}</a><button class="copy" type="button" data-copy="{EMAIL}"><span>copy</span></button></div>
+  <div class="ways">
+    <a href="{BOOK[1]}" target="_blank" rel="noopener" data-cal="{cal}">{escape(BOOK[0])}</a>
+    <a href="{WRITE[1]}" target="_blank" rel="noopener" data-tally="{tally}">{escape(WRITE[0])}</a>
+  </div>
+  <p class="email">or email <a href="mailto:{EMAIL}">{EMAIL}</a><button class="copy" type="button" data-copy="{EMAIL}"><span>copy</span></button></p>
   <nav class="socials" aria-label="Elsewhere">{logos}</nav>
 </section>"""
     write("contact/index.html", shell("contact", 1, "Contact · Mouhamad Mamane", "How to reach Mouhamad Mamane.", main))
