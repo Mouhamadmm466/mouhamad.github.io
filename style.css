@@ -48,15 +48,6 @@ p { margin: 0; }
 /* ---------------------------------------------------------------- the room's atmosphere */
 .haze { position: fixed; inset: 0; z-index: -1; background: var(--ground); view-transition-name: haze; }
 
-/* ---------------------------------------------------------------- corners: where you are, and the time in Cleveland */
-.corner { position: fixed; z-index: 20; top: 22px; display: flex; gap: 12px; align-items: baseline; font: 500 12.5px/1 var(--mono); letter-spacing: .03em; color: var(--muted); pointer-events: none; }
-.corner.left { left: var(--edge); }
-.corner.right { right: var(--edge); }
-.corner b { color: var(--ink); font-weight: 500; }
-.corner .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sahel); align-self: center; animation: pulse 2.4s ease-in-out infinite; }
-@keyframes pulse { 50% { opacity: .35; } }
-@media (max-width: 640px) { .corner.right .where { display: none; } }
-
 /* ---------------------------------------------------------------- the room */
 .room { min-height: 100svh; padding: 76px var(--edge) 128px; display: grid; align-content: center; view-transition-name: room; }
 .room-inner { width: 100%; max-width: 1240px; margin-inline: auto; }
@@ -154,12 +145,6 @@ p { margin: 0; }
 .ways a { font-size: clamp(20px, 2vw, 26px); font-weight: 400; letter-spacing: -.015em; color: var(--ink); text-decoration: none; background: linear-gradient(var(--sahel), var(--sahel)) 0 100% / 100% 2px no-repeat;
   padding-bottom: 4px; transition: background-size .6s var(--ease); }
 .ways a:hover { background-size: 0 2px; background-position: 100% 100%; }
-.email { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 8px; font-size: 15px; color: var(--muted); }
-.email a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--line); transition: text-decoration-color .4s var(--ui); }
-.email a:hover { text-decoration-color: var(--sahel); }
-.copy { height: 28px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--surface-2); color: var(--ink); cursor: pointer; font: 500 12px/1 var(--mono); display: inline-flex; gap: 8px; align-items: center;
-  transition: background-color .4s var(--ui), color .4s var(--ui); }
-.copy:hover { background: var(--sahel); color: #1c1410; }
 /* ---------------------------------------------------------------- 10000+ (off the floor plan) */
 .videos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: clamp(26px, 3.2vw, 42px); }
 @media (max-width: 980px) { .videos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

@@ -66,14 +66,6 @@ document.querySelectorAll(".dock .links a").forEach((a) => {
 });
 document.querySelector(".dock .links")?.addEventListener("mouseleave", placePill);
 
-/* ---- the time in Cleveland ---- */
-const clock = document.querySelector(".clock");
-if (clock) {
-    const fmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
-    const tick = () => { clock.textContent = fmt.format(new Date()); };
-    tick(); setInterval(tick, 20000);
-}
-
 /* ---- Haptics, like Duolingo: a light tick when Momo leaves the ground, a firmer one when it lands.
    Android browsers have the Vibration API. iPhones (Safari 18 and later) have none, but tapping the label of a
    native switch plays the system haptic, so a hidden one stands in. Browsers only allow either after the
@@ -127,16 +119,6 @@ if (penguin) {
         clearTimeout(penguin._t); penguin._t = setTimeout(() => penguin.classList.remove("hop"), 1400);
     });
 }
-
-/* ---- copy the email ---- */
-document.querySelectorAll("[data-copy]").forEach((b) => {
-    b.addEventListener("click", async () => {
-        const label = b.querySelector("span");
-        try { await navigator.clipboard.writeText(b.dataset.copy); if (label) label.textContent = "copied"; }
-        catch (e) { if (label) label.textContent = "press ⌘C"; }
-        setTimeout(() => { if (label) label.textContent = "copy"; }, 1800);
-    });
-});
 
 /* ---- contact: the booking and the message form open over the page instead of a new tab.
    Cal.com's and Tally's scripts load only when a visitor reaches for a link (hover, focus or touch); if they

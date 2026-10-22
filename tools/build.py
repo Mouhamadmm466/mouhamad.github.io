@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parent.parent
 EMAIL = "mouhamadhub@gmail.com"
 # The two ways in on the contact page. Each opens over the page (Cal.com's and Tally's popups, script.js);
 # without JavaScript they open the page itself.
-BOOK = ("Book a call", "https://cal.com/mouhamad-mamane/meeting")
 WRITE = ("Send a message", "https://tally.so/r/VpL1Zv")
+BOOK = ("Book a call", "https://cal.com/mouhamad-mamane/meeting")
 SOCIALS = [
     ("GitHub", "https://github.com/Mouhamadmm466", "github"),
     ("LinkedIn", "https://www.linkedin.com/in/mouhamadmm", "linkedin"),
@@ -44,6 +44,7 @@ ICON = {
     "out": '<path d="M7 17 17 7M8 7h9v9"/>',
     "play": '<path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/>',
     "copy": '<rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
+    "mail": '<rect x="2.8" y="5" width="18.4" height="14" rx="3"/><path d="m3.6 7.2 8.4 6.1 8.4-6.1"/>',
     "github": '<path fill="currentColor" stroke="none" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a10.9 10.9 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>',
     "linkedin": '<path fill="currentColor" stroke="none" d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/>',
     "x": '<path fill="currentColor" stroke="none" d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z"/>',
@@ -190,10 +191,9 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
     cur = ' aria-current="page"'
     links = "".join(f'<a href="{href(path)}" data-i="{i}"{cur if i == idx else ""}>{name}</a>' for i, (name, path, _) in enumerate(ROOMS))
     if idx is None:
-        corner, here_label = '', escape(title.split(" · ")[0])
+        here_label = escape(title.split(" · ")[0])
         prev_ = next_ = None
     else:
-        corner = f'<b>{idx + 1:02d}</b><span>/ {len(ROOMS):02d}</span>'
         here_label = f'{idx + 1:02d} · {ROOMS[idx][0]}'
         prev_ = href(ROOMS[idx - 1][1]) if idx > 0 else None
         next_ = href(ROOMS[idx + 1][1]) if idx < len(ROOMS) - 1 else None
@@ -222,7 +222,6 @@ def shell(key, depth, title, description, main, head_extra="", extra=""):
 <body data-room="{key}">
 <a class="skip" href="#main">Skip to content</a>
 <div class="haze" aria-hidden="true"></div>
-<div class="corner right" aria-hidden="true"><span class="dot"></span><span class="where">Cleveland, OH ·</span><time class="clock">—</time></div>
 <main id="main" class="room">
 <div class="room-inner">
 {main}
@@ -330,16 +329,16 @@ def isca():
     write("isca/index.html", shell("isca", 1, "Isca · Mouhamad Mamane", ISCA_LEDE, main, extra=extra))
 
 def contact():
-    logos = "".join(f'<a href="{u}" target="_blank" rel="noopener" aria-label="{n}" title="{n}">{icon(k)}</a>' for n, u, k in SOCIALS)
+    mail = f'<a href="mailto:{EMAIL}" aria-label="Email {EMAIL}" title="{EMAIL}">{icon("mail")}</a>'
+    logos = mail + "".join(f'<a href="{u}" target="_blank" rel="noopener" aria-label="{n}" title="{n}">{icon(k)}</a>' for n, u, k in SOCIALS)
     cal = BOOK[1].split("cal.com/", 1)[1]        # "mouhamad-mamane/meeting"
     tally = WRITE[1].rstrip("/").rsplit("/", 1)[1]  # "VpL1Zv"
     main = f"""<section class="col center" aria-labelledby="t">
   <h1 id="t" class="title">Let's stay in touch.</h1>
   <div class="ways">
-    <a href="{BOOK[1]}" target="_blank" rel="noopener" data-cal="{cal}">{escape(BOOK[0])}</a>
     <a href="{WRITE[1]}" target="_blank" rel="noopener" data-tally="{tally}">{escape(WRITE[0])}</a>
+    <a href="{BOOK[1]}" target="_blank" rel="noopener" data-cal="{cal}">{escape(BOOK[0])}</a>
   </div>
-  <p class="email">or email <a href="mailto:{EMAIL}">{EMAIL}</a><button class="copy" type="button" data-copy="{EMAIL}"><span>copy</span></button></p>
   <nav class="socials" aria-label="Elsewhere">{logos}</nav>
 </section>"""
     write("contact/index.html", shell("contact", 1, "Contact · Mouhamad Mamane", "How to reach Mouhamad Mamane.", main))
