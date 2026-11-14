@@ -61,7 +61,7 @@ THOUGHT = ("I create to discover if the things that only exist in my imagination
            "and perhaps, in giving form to what was not there before, I give form to myself.")
 
 CURRENTLY = [  # (name, url, shown domain, description)
-    ("namuai*lab", "https://www.namu-ai.org", "namu-ai.org", "Building voice AI in the languages of Africa."),
+    ("namuai*lab", "https://www.namuai-lab.com", "namuai-lab.com", "Building voice AI in the languages of Africa."),
     # Ex Libris: Latin for "from the library of", the bookplate that marks a book as yours. Personal AGI project.
     ("Ex Libris", "https://www.x-libris.xyz/", "x-libris.xyz", "Building personal AGI that anyone can own. An intelligent library of you that lives on your device and grows with you."),
     ("dot*WTF", "https://cwru.wtf/", "cwru.wtf", "A collective of student builders, researchers, artists and hackers, encouraging interdisciplinary collaboration."),
@@ -87,7 +87,7 @@ ISCA = [  # (stage, scene label, paragraphs)
 ]
 
 ROLES = [  # the two lines under the manifesto: (role, @place, url, note)
-    ("Co-founder", "Namu", "https://www.namu-ai.org", "speech AI for the languages of Africa"),
+    ("Co-founder", "Namu", "https://www.namuai-lab.com", "speech AI for the languages of Africa"),
     ("Student", "CWRU", "https://case.edu", "Computer Science & Applied Math"),
 ]
 
@@ -97,28 +97,44 @@ ABOUT = [
     "So I am co-founding an African AI research and technology startup, building speech-native models, datasets and products that make technology accessible through natural conversation, in every language and every community.",
 ]
 
+# Build; and Research; rows: (title, note, link, shown link, one or two sentences). The note is printed as written.
+LAB = "https://www.namuai-lab.com"
 INITIATIVES = [
-    dict(title="Namu", role="Co-founder", obj="obj-namu", href="https://www.namu-ai.org", link="namu-ai.org",
-         body="An African AI research and technology company building speech-native models, datasets and products that make technology accessible through natural conversation, in every language and every community."),
-    dict(title="tekSafari", role="Software engineer", obj="obj-teksafari", href="https://teksafari.com/", link="teksafari.com",
-         body="Building a Common App-style admissions platform in Haiti."),
-    dict(title="Claude Ambassador", role="Community lead, Cleveland", obj="obj-claude", href=None, link=None,
-         body="Leading a community of builders in Cleveland."),
-    dict(title="Science Week", role="Organiser, Niger", obj="obj-science", href=None, link=None,
-         body="Organised a Science Focus Week in Niger. Raised $10,000 and gathered 1,000+ people in Niamey to discuss technology's role in peacebuilding in the Sahel."),
-    dict(title="UwcNiger", role="Builder", obj="obj-uwc", href="https://uwc-niger.com", link="uwc-niger.com",
-         body="A centralised platform for the UwcNiger community, where current students find guidance and connect with alumni, so we stay connected and help each other."),
+    dict(title="Namu AI Lab", role="co-founder, CEO", href=LAB, link="namuai-lab.com",
+         body="A research lab for voice AI in the languages of the Sahel. Started in Niger in March 2026, it trains models that hear, speak and translate Hausa, Zarma and French, and publishes what it learns."),
+    dict(title="The Namu API", role="in beta", href="https://developers.namuai-lab.com", link="docs",
+         body="Speech in Hausa, Zarma and French behind one key: recognition, synthesis, Hausa and French translation, and a research voice agent. Metered, documented, with SDKs on PyPI and npm."),
+    dict(title="tata", role="consented speech", href="https://contribuer.namuai-lab.com", link="record",
+         body="A game for lending your voice to AI. People in Niger record short spoken missions from their phones, with consent bound to every recording. Opened in November 2026."),
+    dict(title="momOS", role="winner, NVIDIA track", href=None, link=None,
+         body="A voice assistant that lives entirely on an iPhone, hearing, thinking, speaking and remembering with no network and no cloud. Built by a team of four; the seed of Ex Libris."),
+    dict(title="dot*WTF", role="co-lead", href="https://dott.wtf/", link="dott.wtf",
+         body="We Tinker Fearlessly. A community at Case Western for builders, researchers, artists and hackers who would rather make the thing than talk about it."),
+    dict(title="Science Week", role="organiser, Niger", href=None, link=None,
+         body="While still in high school, raised $10,000 and brought more than 1,000 people to Niamey to ask what science and technology can do for peace in the Sahel."),
+    dict(title="Claude Ambassador", role="community lead, Cleveland", href=None, link=None,
+         body="Running a community of builders in Cleveland who learn, build and demo with AI."),
 ]
 
+# The Lab's papers are technical reports by Namu AI Lab; each links to its overview page, which links the PDF.
+PAPER = LAB + "/research/"
 RESEARCH = [
-    dict(n="I", title="Hausa text-to-speech", role="Open source", obj="obj-tts", href="https://github.com/Mouhamadmm466/VITS_namu_fine_tuning", link="github",
-         body="A fine-tuning pipeline for Hausa speech synthesis: a single-speaker dataset, Meta's MMS Hausa checkpoint, and the original VITS training modules, with targeted pronunciation overrides."),
-    dict(n="II", title="Compressing language models", role="Research assistant", obj="obj-pruning", href=None, link=None,
-         body="With a PhD student, applied pruning and compression to transformer LLMs in PyTorch, measuring model size, memory and inference speed across sparsity levels."),
-    dict(n="III", title="NSRI", role="Collaborative research", obj="obj-nsri", href="https://divine-set-544592.framer.app", link="website",
-         body="Research with 1,000+ students worldwide, mentored by faculty affiliated with MIT, Georgia Tech, UGA, Emory and others, toward papers for global publication."),
-    dict(n="IV", title="Predicting financial stress", role="1st place · Zindi", obj="obj-hackathon", href="https://github.com/Mouhamadmm466/FinancialStress_Solution_Zindi", link="github",
-         body="Won first place ($3k) by predicting which mobile money customers will face liquidity stress in the next 30 days, from six months of behaviour."),
+    dict(title="Zarma speech technology from scarce data", role="Namu AI Lab, 2026", href=PAPER + "zarma-speech-from-scarce-data", link="paper",
+         body="Recognition, synthesis, translation and a voice agent for Zarma, built from the roughly 1% of its public audio that is open and transcribed. About a third of the measured error was spelling, not hearing."),
+    dict(title="Toward spoken conversation in Hausa", role="Namu AI Lab, 2026", href=PAPER + "spoken-dialogue-in-hausa", link="paper",
+         body="A full-duplex model learned the timing of conversation (95.6% of turn ends answered on held-out synthetic dialogue, median 0.78 s) but not what to say. So we built an ear and a mouth around a frozen language model."),
+    dict(title="One speech synthesis model for Hausa, Zarma and French", role="Namu AI Lab, 2026", href=PAPER + "one-synthesis-model-three-languages", link="paper",
+         body="One voice-cloning model grown from Hausa to Zarma to French, measured at each step for what every new language cost the others. Trained jointly, it holds all three within tolerances fixed in advance."),
+    dict(title="What open language models know of Hausa, Zarma and Fulfulde", role="Namu AI Lab, 2026", href=PAPER + "what-language-models-know-of-sahel-languages", link="paper",
+         body="What open language models read, understand and write in three languages of Niger. One trained on African languages reads Hausa, understands some Zarma and writes none, so our Zarma agent thinks in French."),
+    dict(title="Measuring Hausa speech recognition", role="Namu AI Lab, 2026", href=PAPER + "measuring-hausa-speech-recognition", link="paper",
+         body="Spelling conventions and test subsets move a Hausa error rate about as much as switching between two same-size recognisers. In FLEURS, half the word types written with a hooked letter also appear without it."),
+    dict(title="Collecting consented speech in the languages of the Sahel", role="Namu AI Lab, 2026", href=PAPER + "collecting-consented-speech", link="paper",
+         body="Public speech in Niger's languages comes from a handful of speakers; a recogniser trained on five memorised their voices. So we designed a programme to record speech, with consent, with the people who speak them."),
+    dict(title="Compressing transformer language models", role="research assistant, CWRU", href=None, link=None,
+         body="With a PhD student at Case Western: a PyTorch framework that trains, prunes and benchmarks transformers across 300+ configurations. The best made models up to 70% smaller within 1% of the original accuracy."),
+    dict(title="Predicting financial stress", role="1st place, Zindi", href="https://github.com/Mouhamadmm466/FinancialStress_Solution_Zindi", link="github",
+         body="First place and $3,000 for predicting which mobile money customers will run short of cash in the next 30 days, from six months of their behaviour."),
 ]
 
 ENTRIES = [  # (number, title, date, file, listed)
@@ -147,10 +163,6 @@ def words(text, start=0):
     for k, w in enumerate(text.split()):
         out.append(f'<span class="w" style="--i:{start + k}">{escape(w)}</span>')
     return " ".join(out)
-
-def soft(t):
-    """Lowercases only the first letter, so place names keep their capitals (\"organiser, Niger\")."""
-    return t[:1].lower() + t[1:]
 
 # Momo the penguin (the favicon), drawn inline so its eyes can follow the cursor. Sits right after "(momo)" in the greeting.
 PENGUIN = """<button class="penguin" type="button" aria-label="Momo the penguin. Click to say hi.">
@@ -273,21 +285,21 @@ def about():
     write("about/index.html", shell("about", 1, "About · Mouhamad Mamane", "About Mouhamad Mamane: building useful systems and software that benefit underserved communities.", main))
 
 def initiatives():
-    items = [(it["title"], soft(it["role"]), it["href"], it["link"], it["body"]) for it in INITIATIVES]
+    items = [(it["title"], it["role"].replace(" ", "\u00a0"), it["href"], it["link"], it["body"]) for it in INITIATIVES]
     main = f"""<section class="col" aria-labelledby="t">
   <h1 id="t" class="sr-only">Build</h1>
   {item_list("Build;", items)}
 </section>"""
-    write("build/index.html", shell("build", 1, "Build · Mouhamad Mamane", "Namu, tekSafari, Claude Ambassador, Science Week in Niger and UwcNiger.", main))
+    write("build/index.html", shell("build", 1, "Build · Mouhamad Mamane", "What Mouhamad Mamane builds: Namu AI Lab, the Namu API, tata, momOS, the dot*WTF community at Case Western, Science Week in Niger and a Claude builders community in Cleveland.", main))
 
 def research():
-    items = [(r["title"], soft(r["role"]), r["href"], r["link"], r["body"]) for r in RESEARCH]
+    items = [(r["title"], r["role"].replace(" ", "\u00a0"), r["href"], r["link"], r["body"]) for r in RESEARCH]
     main = f"""<section class="col" aria-labelledby="t">
   <h1 id="t" class="sr-only">Research</h1>
   <div class="quote"><p class="greet">i am a scientist!</p><p class="thought">i invent, transform and destroy for a living.</p></div>
   {item_list("Research;", items)}
 </section>"""
-    write("research/index.html", shell("research", 1, "Research · Mouhamad Mamane", "Hausa text-to-speech, compressing language models, NSRI and a first-place Zindi solution.", main))
+    write("research/index.html", shell("research", 1, "Research · Mouhamad Mamane", "Research by Mouhamad Mamane: Namu AI Lab reports on Zarma and Hausa speech, spoken conversation, multilingual speech synthesis and language models; compressing transformers; a first-place Zindi solution.", main))
 
 def entries():
     toc = "".join(f'<li><a href="{f}"><span class="n">{n}</span><span class="t">{escape(t)}</span><span class="mono">{d} · coming soon</span></a></li>'
